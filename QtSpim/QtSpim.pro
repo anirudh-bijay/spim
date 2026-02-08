@@ -64,6 +64,7 @@ SOURCES += main.cpp\
         ../CPU/string-stream.cpp\
         ../CPU/sym-tbl.cpp\
         ../CPU/syscall.cpp\
+        ../turtle/turtle.cpp\
         spim_support.cpp
 
 

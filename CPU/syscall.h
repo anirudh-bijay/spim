@@ -59,3 +59,13 @@ void handle_exception();
 #define CLOSE_SYSCALL 16
 
 #define EXIT2_SYSCALL 17
+
+// The below syscalls have been added to interface with the turtle.
+#define TURTLE_OPEN_SYSCALL 32
+#define TURTLE_FD_SYSCALL 33
+#define TURTLE_BK_SYSCALL 34
+#define TURTLE_LT_SYSCALL 35
+#define TURTLE_RT_SYSCALL 36
+#define TURTLE_GOTO_SYSCALL 37
+#define TURTLE_PU_SYSCALL 38
+#define TURTLE_PD_SYSCALL 39

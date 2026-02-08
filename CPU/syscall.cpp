@@ -52,6 +52,9 @@
 #include "sym-tbl.h"
 #include "syscall.h"
 
+// The below include is added to interface with the turtle.
+#include "../turtle/turtle.h"
+
 #ifdef _WIN32
 /* Windows has an handler that is invoked when an invalid argument is passed to
    a system call.
@@ -179,10 +182,12 @@ int do_syscall() {
     }
 
     case EXIT_SYSCALL:
+      turtle_exit();                 /* Added for exiting from turtle */
       spim_return_value = 0;
       return (0);
 
     case EXIT2_SYSCALL:
+      turtle_exit();                 /* Added for exiting from turtle */
       spim_return_value = R[REG_A0]; /* value passed to spim's exit() call */
       return (0);
 
@@ -226,6 +231,40 @@ int do_syscall() {
 #endif
       break;
     }
+
+    // The below syscalls have been added to interface with the turtle.
+    case TURTLE_OPEN_SYSCALL:
+      spawn_turtle();
+      break;
+      
+    case TURTLE_FD_SYSCALL:
+      turtle_fd(R[REG_A0]);
+      break;
+
+    case TURTLE_BK_SYSCALL:
+      turtle_bk(R[REG_A0]);
+      break;
+
+    case TURTLE_LT_SYSCALL:
+      turtle_lt(R[REG_A0]);
+      break;
+
+    case TURTLE_RT_SYSCALL:
+      turtle_rt(R[REG_A0]);
+      break;
+
+    case TURTLE_GOTO_SYSCALL:
+      turtle_goto(R[REG_A0], R[REG_A1]);
+      break;
+
+    case TURTLE_PU_SYSCALL:
+      turtle_pu();
+      break;
+
+    case TURTLE_PD_SYSCALL:
+      turtle_pd();
+      break;
+    // End of turtle syscalls
 
     default:
       run_error("Unknown system call: %d\n", R[REG_V0]);

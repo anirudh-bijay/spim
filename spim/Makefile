@@ -116,7 +116,7 @@ LEXCFLAGS += -O $(CXXFLAGS)
 
 
 OBJS = spim.o spim-utils.o run.o mem.o inst.o data.o sym-tbl.o parser_yacc.o lex.yy.o \
-       syscall.o display-utils.o string-stream.o
+       syscall.o display-utils.o string-stream.o turtle.o
 
 
 spim:   $(OBJS)
@@ -218,6 +218,14 @@ lex.yy.cpp: $(CPU_DIR)/scanner.l
 lex.yy.o: lex.yy.cpp
 	$(CXX) $(LEXCFLAGS) -c lex.yy.cpp
 
+# 
+# Turtle-specific
+# 
+
+TURTLE_DIR = ../turtle
+
+turtle.o: $(TURTLE_DIR)/turtle.cpp $(TURTLE_DIR)/turtle.h
+	$(CXX) $(CXXFLAGS) -c $(TURTLE_DIR)/turtle.cpp
 
 #
 # DO NOT DELETE THIS LINE -- make depend depends on it.
@@ -301,6 +309,7 @@ syscall.o: $(CPU_DIR)/reg.h
 syscall.o: $(CPU_DIR)/mem.h
 syscall.o: $(CPU_DIR)/sym-tbl.h
 syscall.o: $(CPU_DIR)/syscall.h
+syscall.o: $(TURTLE_DIR)/turtle.h
 lex.yy.o: $(CPU_DIR)/spim.h
 lex.yy.o: $(CPU_DIR)/string-stream.h
 lex.yy.o: $(CPU_DIR)/spim-utils.h

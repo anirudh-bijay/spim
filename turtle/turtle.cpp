@@ -33,6 +33,7 @@ static void init_turtle(void)
     }
 
     execl("../turtle/spim_turtle.py", "spim_turtle.py", NULL);
+    perror("execl");
     exit(EXIT_FAILURE);
 }
 

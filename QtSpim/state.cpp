@@ -112,7 +112,7 @@ void SpimView::readSettings() {
   st_recentFiles.clear();
   int i;
   for (i = 0; i < st_recentFilesLength; i++) {
-    QString file = settings.value("RecentFile" + QString(i), "").toString();
+    QString file = settings.value("RecentFile" + QString(QChar(i)), "").toString();
     st_recentFiles.append(file);
   }
   rebuildRecentFilesMenu();
@@ -179,9 +179,9 @@ void SpimView::writeSettings(bool omitWindowState) {
   int i;
   for (i = 0; i < st_recentFilesLength; i++) {
     if (i < st_recentFiles.length()) {
-      settings.setValue("RecentFile" + QString(i), st_recentFiles[i]);
+      settings.setValue("RecentFile" + QString(QChar(i)), st_recentFiles[i]);
     } else {
-      settings.setValue("RecentFile" + QString(i), "");
+      settings.setValue("RecentFile" + QString(QChar(i)), "");
     }
   }
   settings.endGroup();

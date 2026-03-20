@@ -724,7 +724,7 @@ void SpimView::help_ViewHelp() {
       0};
 
   int i;
-  for (i = 0; helpFile[i] != 0; i += 1) {
+  for (i = 0; helpFile[i] != nullptr; i += 1) {
     QFileInfo fi1(helpFile[i]);
     if (fi1.exists()) {
       args << QString("-collectionFile") << QString(helpFile[i]);
@@ -732,7 +732,7 @@ void SpimView::help_ViewHelp() {
     }
   }
 
-  if (helpFile[i] == 0) {
+  if (helpFile[i] == nullptr) {
     QMessageBox msgBox;
     msgBox.setText("Cannot find QtSpim help file. Check installation.");
     msgBox.exec();

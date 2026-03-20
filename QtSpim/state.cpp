@@ -31,8 +31,9 @@
    POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <QDesktopWidget>
+#include <QGuiApplication>
 #include <QMessageBox>
+#include <QScreen>
 
 #include "spimview.h"
 #include "ui_spimview.h"
@@ -50,7 +51,7 @@ void SpimView::readSettings() {
   // If the size of the restored window exceeds the current screen size, resize
   // the window.
   //
-  const QRect availGeo = App->desktop()->availableGeometry(this);
+  const QRect availGeo = App->primaryScreen()->availableGeometry();
   const QRect& curFGeo = this->frameGeometry();
   if (!availGeo.contains(curFGeo)) {
     this->adjustSize();

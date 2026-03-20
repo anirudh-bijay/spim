@@ -62,7 +62,7 @@ void error(char *fmt, ...) {
   va_start(args, fmt);
 
   char buf[BIG_BUF_SIZE];
-  qvsnprintf(buf, BIG_BUF_SIZE, fmt, args);
+  vsnprintf(buf, BIG_BUF_SIZE, fmt, args);
   va_end(args);
 
   Window->Error(buf, 0);
@@ -73,7 +73,7 @@ void run_error(char *fmt, ...) {
   va_start(args, fmt);
 
   char buf[BIG_BUF_SIZE];
-  qvsnprintf(buf, BIG_BUF_SIZE, fmt, args);
+  vsnprintf(buf, BIG_BUF_SIZE, fmt, args);
   va_end(args);
 
   Window->Error(buf, 0);
@@ -84,7 +84,7 @@ void fatal_error(char *fmt, ...) {
   va_start(args, fmt);
 
   char buf[BIG_BUF_SIZE];
-  qvsnprintf(buf, BIG_BUF_SIZE, fmt, args);
+  vsnprintf(buf, BIG_BUF_SIZE, fmt, args);
   va_end(args);
 
   Window->Error(buf, 1);
@@ -131,7 +131,7 @@ void write_output(port fp, char *fmt, ...) {
   va_start(args, fmt);
 
   char buf[BIG_BUF_SIZE];
-  qvsnprintf(buf, BIG_BUF_SIZE, fmt, args);
+  vsnprintf(buf, BIG_BUF_SIZE, fmt, args);
   va_end(args);
 
   if (fp.i == message_out.i) {

@@ -733,6 +733,7 @@ void SpimView::help_ViewHelp() {
   }
 
   if (helpFile[i] == nullptr) {
+    delete process;
     QMessageBox msgBox;
     msgBox.setText("Cannot find QtSpim help file. Check installation.");
     msgBox.exec();

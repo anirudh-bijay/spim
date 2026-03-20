@@ -35,7 +35,7 @@
 #include "ui_spimview.h"
 
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringBuilder>
 #define QT_USE_FAST_CONCATENATION
 #include <QInputDialog>
@@ -436,10 +436,9 @@ QString regTextEdit::strAtPos(QString pattern) {
   mouseCursor.select(QTextCursor::LineUnderCursor);
   QString line = mouseCursor.selectedText();
 
-  QRegExp rx(pattern);
+  QRegularExpression rx(pattern);
 
-  rx.indexIn(line);
-  return rx.cap(1);
+  return rx.match(line).captured(1);
 }
 
 QString promptForNewValue(QString text, int* base) {

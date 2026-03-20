@@ -35,7 +35,7 @@
 #include "ui_spimview.h"
 #
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QContextMenuEvent>
 #include <QStringBuilder>
 #define QT_USE_FAST_CONCATENATION
@@ -133,7 +133,7 @@ void SpimView::highlightInstruction(mem_addr pc) {
       ui->TextSegDockWidget->findChild<QTextEdit*>("TextSegmentTextEdit");
   QTextCursor cursor(te->document());
 
-  QRegExp rx("\\[" + formatAddress(pc) + "\\]");  // Start of specific line
+  QRegularExpression rx("\\[" + formatAddress(pc) + "\\]");  // Start of specific line
   cursor = te->document()->find(rx, cursor);
   if (!cursor.isNull()) {
     cursor.select(QTextCursor::LineUnderCursor);
@@ -213,10 +213,9 @@ int textTextEdit::pcFromPos(QTextCursor* cursor) {
   cursor->select(QTextCursor::LineUnderCursor);
   QString line = cursor->selectedText();
 
-  QRegExp rx("\\[([0-9a-fA-F]{8})\\]");  // Address of instruction
+  QRegularExpression rx("\\[([0-9a-fA-F]{8})\\]");  // Address of instruction
 
-  rx.indexIn(line);
-  QString pcStr = rx.cap(1);
+  QString pcStr = rx.match(line).captured(1);
   if (pcStr != "") {
     bool ok;
     mem_addr pc = pcStr.toUInt(&ok, 16);

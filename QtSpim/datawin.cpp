@@ -35,7 +35,7 @@
 #include "ui_spimview.h"
 
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QContextMenuEvent>
 #include <QStringBuilder>
 #define QT_USE_FAST_CONCATENATION
@@ -215,7 +215,7 @@ QString formatWord(mem_word word, int base) {
 
   if (str[0] == '-')  // decimal starting with a negative sign
     return str.rightJustified(width, ' ')
-        .replace(QRegExp(" "), "&nbsp;");  // Don't zero pad
+        .replace(QRegularExpression(" "), "&nbsp;");  // Don't zero pad
   else
     return str.rightJustified(width, '0');
 }
@@ -308,10 +308,9 @@ int dataTextEdit::addrFromPos(QTextCursor* cursor) {
   cursor->select(QTextCursor::LineUnderCursor);
   QString line = cursor->selectedText();
 
-  QRegExp rx("\\[([0-9a-fA-F]{8})\\]");  // Address of instruction
+  QRegularExpression rx("\\[([0-9a-fA-F]{8})\\]");  // Address of instruction
 
-  rx.indexIn(line);
-  QString addrStr = rx.cap(1);
+  QString addrStr = rx.match(line).captured(1);
   if (addrStr != "") {
     bool ok;
     mem_addr addr = addrStr.toUInt(&ok, 16);
@@ -323,14 +322,14 @@ int dataTextEdit::addrFromPos(QTextCursor* cursor) {
       line.truncate(offset);          // Remove address
       line.remove(0, 14);             // Remove line after mouse position
 
-      QRegExp rx2(
+      QRegularExpression rx2(
           "^([0-9a-fA-F]+\\s*)?([0-9a-fA-F]+\\s*)?([0-9a-fA-F]+\\s*)?([0-9a-fA-"
           "F]+\\s*)?");
-      rx2.indexIn(line, 0);
-      return addr + (rx2.cap(1) == "" ? 0 : 0) +
-             (rx2.cap(2) == "" ? 0 : BYTES_PER_WORD) +
-             (rx2.cap(3) == "" ? 0 : BYTES_PER_WORD) +
-             (rx2.cap(4) == "" ? 0 : BYTES_PER_WORD);
+      QRegularExpressionMatch match = rx2.match(line, 0);
+      return addr + (match.captured(1) == "" ? 0 : 0) +
+             (match.captured(2) == "" ? 0 : BYTES_PER_WORD) +
+             (match.captured(3) == "" ? 0 : BYTES_PER_WORD) +
+             (match.captured(4) == "" ? 0 : BYTES_PER_WORD);
     }
   }
   return 0;

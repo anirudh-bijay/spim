@@ -34,7 +34,6 @@
 #include <stdarg.h>
 
 #include "spimview.h"
-#include "ui_spimview.h"
 
 #include <QChar>
 

@@ -61,9 +61,9 @@ chmod 0644 $SETUP_DIR/usr/lib/qtspim/bin/qt.conf
 #qtspim libraries
 QT_LIB_DIR=$QT_BIN_DIR/../lib
 install `ldd $RELEASE_DIR/QtSpim | grep = | grep Qt | cut -f 3 -s -d " " | xargs` $SETUP_DIR/usr/lib/qtspim/lib
-install $QT_LIB_DIR/libQt5XcbQpa.so.5 $SETUP_DIR/usr/lib/qtspim/lib
-install $QT_LIB_DIR/libQt5DBus.so.5 $SETUP_DIR/usr/lib/qtspim/lib
-install $QT_LIB_DIR/libQt5Svg.so.5 $SETUP_DIR/usr/lib/qtspim/lib
+install $QT_LIB_DIR/libQt6XcbQpa.so.6 $SETUP_DIR/usr/lib/qtspim/lib
+install $QT_LIB_DIR/libQt6DBus.so.6 $SETUP_DIR/usr/lib/qtspim/lib
+install $QT_LIB_DIR/libQt6Svg.so.6 $SETUP_DIR/usr/lib/qtspim/lib
 
 #assistant libraries
 install `ldd $QT_BIN_DIR/assistant | grep = | grep Qt | cut -f 3 -s -d " " | xargs` $SETUP_DIR/usr/lib/qtspim/lib

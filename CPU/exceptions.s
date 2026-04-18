@@ -180,16 +180,72 @@ ret:
 	.text
 	.globl __start
 __start:
+	# ADDED: Spawn turtle
+	or $t0 $zero $v0
+	ori $v0 $zero 32
+	syscall
+	or $v0 $zero $t0
+
 	lw $a0 0($sp)		# argc
 	addiu $a1 $sp 4		# argv
 	addiu $a2 $a1 4		# envp
 	sll $v0 $a0 2
 	addu $a2 $a2 $v0
+
+	# ADDED: Parse command-line args as integers
+	move $s0 $a0
+	li $s1 1
+loop2:	
+	beq $s1 $s0 loopend
+	sll $s2 $s1 2
+	addu $a0 $a1 $s2
+	lw $a0 0($a0)
+	jal atoi
+	addu $a0 $a1 $s2
+	sw $v0 0($a0)
+	addiu $s1 $s1 1
+	j loop2
+loopend:
+	move $a0 $s0
+
 	jal main
 	nop
 
 	li $v0 10
 	syscall			# syscall 10 (exit)
+
+# ADDED: atoi
+# Function: atoi
+# Input:  $a0 = Address of null-terminated string
+# Output: $v0 = Integer value
+	.globl atoi
+atoi:
+        li   	$v0, 0          # Initialize result (sum) to 0
+        li   	$t0, 10         # Multiplier constant (base 10)
+
+loop:
+        lbu  	$t1, ($a0)      # Load next character byte
+        beq  	$t1, $zero, end # Exit loop if null terminator (\0) is found
+    
+        # Check if character is a digit (ASCII 48-57)
+        li	$t2, 48
+	blt  	$t1, $t2, error # If < '0', it's not a digit
+	li	$t2, 57
+        bgt  	$t1, $t2, error # If > '9', it's not a digit
+
+        addiu 	$t1, $t1, -48   # Convert ASCII char to digit (char - '0')
+    
+        mul  	$v0, $v0, $t0   # result = result * 10
+        addu 	$v0, $v0, $t1   # result = result + digit
+
+        addiu	$a0, $a0, 1     # Increment string pointer
+        j    	loop            # Repeat for next character
+
+error:
+        li   	$v0, -1         # Return -1 for invalid input
+
+end:
+        jr   	$ra             # Return to caller
 
 	.globl __eoth
 __eoth:

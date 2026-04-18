@@ -28,9 +28,6 @@ main:
         la              $a0, msg1       #
         syscall                         #   puts(msg1);
                                         #
-        li              $v0, 32         #
-        syscall                         #   spawn_turtle();
-                                        #
         li              $t0, 4          #   int i = 4;
 loop:                                   #   do {
         li              $v0, 33         #     
